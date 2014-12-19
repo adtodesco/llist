@@ -29,10 +29,12 @@ int LList_size(LList* l) {
 /* print all values in the list in order form head to tail  */
 void LList_print(LList * l) {
 	Node *temp = l->head;
+	printf("[");
 	while(temp != NULL) {
-		printf("%d\n", temp->value);
+		printf("%d ", temp->value);
 		temp = temp->next;
 	}
+	printf("]\n");
 }
 
 /* return the head of the list */
@@ -119,50 +121,50 @@ int LList_is_sorted(LList *l) {
 /* delete the node at the tail from the list and return it. It does
    NOT free the node.  */ 
 Node* LList_delete_at_tail(LList *l) {
-	Node *delete = l->tail;
+	Node *temp = l->tail;
 	if (l->size == 1) {
 		l->head = NULL;
 		l->tail = NULL;
 	}
 	else {
-		Node *newEnd = delete->prev;
+		Node *newEnd = temp->prev;
 		newEnd->next = NULL;
 		l->tail = newEnd;
 	}
 	l->size--;
-	return delete;
+	return temp;
 }
 
 Node* LList_delete_at_head(LList *l) {
-	Node *delete = l->head;
+	Node *temp = l->head;
 	if (l->size == 1) {
 		l->head = NULL;
 		l->tail = NULL;
 	}
 	else {
-		Node *newEnd = delete->next;
+		Node *newEnd = temp->next;
 		newEnd->prev = NULL;
 		l->head = newEnd;
 	}
 	l->size--;
-	return delete;
+	return temp;
 
 }
 
 /* assume n is pointing to a node in l; delete it from the list (link
    its predeccor to it's sucessor). It does NOT free the node.  */
 void  LList_delete(LList* l, Node* n) {
-	Node *delete = l->head;
-	while (delete != n && delete->next != NULL) {
-		delete = delete->next;
+	Node *temp = l->head;
+	while (temp != n && temp->next != NULL) {
+		temp = temp->next;
 	}
-	if (delete->next == NULL) {
+	if (temp->next == NULL) {
 		LList_delete_at_tail(l);
-	} else if (delete->prev == NULL) {
+	} else if (temp->prev == NULL) {
 		LList_delete_at_head(l);
 	} else {
-		(delete->prev)->next = delete->next;
-		(delete->next)->prev = delete->prev;
+		(temp->prev)->next = temp->next;
+		(temp->next)->prev = temp->prev;
 		l->size--;
 	}
 }
